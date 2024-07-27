@@ -1,0 +1,25 @@
+﻿<Window x:Class="Seoul_Stay.Welcome"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Seoul_Stay"
+        mc:Ignorable="d"
+        Title="Seoul Stay - Welcome" Height="450" Width="800">
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="99" Margin="242,25,0,0" VerticalAlignment="Top" Width="308" RenderTransformOrigin="0.509,0.497" Source="/WSC2022SE_TP09_Logo_actual_en.png" Stretch="Fill"/>
+        <Label Content="Employee:" HorizontalAlignment="Left" Margin="174,158,0,0" VerticalAlignment="Top"/>
+        <Label Content="Password:" HorizontalAlignment="Left" Margin="174,249,0,0" VerticalAlignment="Top"/>
+        <Label Content="User:" HorizontalAlignment="Left" Margin="174,208,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="employeeField" HorizontalAlignment="Left" Margin="253,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="179" FontSize="14"/>
+        <TextBox x:Name="usernameField" HorizontalAlignment="Left" Margin="253,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="179" FontSize="14"/>
+        <CheckBox x:Name="keepMeSignedIn" Content="Keep me signed in" HorizontalAlignment="Left" Margin="509,193,0,0" VerticalAlignment="Top" />
+        <CheckBox x:Name="showPassword" Content="Show Password" HorizontalAlignment="Left" Margin="509,237,0,0" VerticalAlignment="Top" Checked="showPassword_Checked" Unchecked="showPassword_Unchecked"/>
+        <Button x:Name="loginBtn" Content="Login" HorizontalAlignment="Left" Margin="293,311,0,0" VerticalAlignment="Top" Width="99" Height="28" Click="loginBtn_Click"/>
+        <Button x:Name="exitBtn" Content="Exit" HorizontalAlignment="Left" Margin="449,311,0,0" VerticalAlignment="Top" Width="99" Height="28" Click="exitBtn_Click" />
+        <Label Content="Don't have an account?" HorizontalAlignment="Left" Margin="308,367,0,0" VerticalAlignment="Top" FontSize="10"/>
+        <Button x:Name="createBtn" Content="Create one" HorizontalAlignment="Left" Margin="441,365,0,0" VerticalAlignment="Top" Width="99" Height="28"  BorderBrush="White" Background="White" Foreground="#FF0931D0" FontSize="10" Click="createBtn_Click"/>
+        <PasswordBox x:Name="passwordField" HorizontalAlignment="Left" Margin="253,253,0,0" VerticalAlignment="Top" Width="179" FontSize="14"/>
+        <TextBox x:Name="passwordFieldText" HorizontalAlignment="Left" Margin="253,253,0,0" VerticalAlignment="Top" Width="179" FontSize="14" Visibility="Hidden"/>
+    </Grid>
+</Window>

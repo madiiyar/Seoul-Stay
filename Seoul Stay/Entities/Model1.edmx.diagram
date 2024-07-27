@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9d7f99df1f06422a812522a74f9d81d8" Name="Diagram1" ZoomLevel="72">
+        <EntityTypeShape EntityType="Session1Model.Amenity" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.Area" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.Attraction" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.CancellationPolicy" Width="1.5" PointX="6" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.CancellationRefundFee" Width="1.5" PointX="8.25" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.Coupon" Width="1.5" PointX="10.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.DimDate" Width="1.5" PointX="10.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.ItemAmenity" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.ItemAttraction" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.ItemPicture" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.ItemPrice" Width="1.5" PointX="8.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.Item" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.ItemType" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.sysdiagram" Width="1.5" PointX="12.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.Transaction" Width="1.5" PointX="10" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.TransactionType" Width="1.5" PointX="7.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.User" Width="1.5" PointX="0.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Session1Model.UserType" Width="1.5" PointX="1.5" PointY="15.625" IsExpanded="true" />
+        <AssociationConnector Association="Session1Model.FK_PlaceAmenities_Amenities" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_Attractions_Areas" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_Items_Areas" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_PlaceSightseeingLocations_SightseeingLocations" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_CancellationRefundFees_CancellationPolicies" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_PlacePrices_CancellationPolicies" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_PlaceAmenities_Places" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_PlaceSightseeingLocations_Places" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_PlacePictures_Places" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_PlacePrices_Places" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_Places_PlaceTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_Places_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_Transactions_TransactionTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="Session1Model.FK_Users_UserTypes" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

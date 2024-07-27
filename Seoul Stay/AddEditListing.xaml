@@ -1,0 +1,84 @@
+﻿<Window x:Class="Seoul_Stay.AddEditListing"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Seoul_Stay"
+        mc:Ignorable="d"
+        Title="Seoul Stay - Add / Edit Listing" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="747*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl Width="780" Height="350" Grid.ColumnSpan="2" Margin="10,42,10,42">
+            <TabItem Header="Listing Details">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Height="327" >
+
+                    <Label Content="Type:" Margin="38,10,626,266" />
+                    <ComboBox x:Name="typeComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="81,10,0,0" RenderTransformOrigin="0.494,0.539" Width="236" />
+                    <Label Content="Title:" Margin="420,10,284,266" RenderTransformOrigin="0.28,0.484" />
+                    <TextBox x:Name="titleTextBox" TextWrapping="Wrap"  Width="257" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="470,10,0,0" FontSize="14" Height="26"/>
+                    <Label Content="Capacity" Margin="33,48,614,223" RenderTransformOrigin="0.524,0.528" />
+                    <TextBox x:Name="capacityTextBox" TextWrapping="Wrap"  Width="53" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="92,49,0,0" FontSize="14" Height="26"/>
+                    <Label Content="Number of Beds" Margin="168,48,467,221" RenderTransformOrigin="0.524,0.528" />
+                    <TextBox x:Name="bedsTextBox" TextWrapping="Wrap"  Width="53" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="264,48,0,0" FontSize="14" Height="26"/>
+                    <Label Content="Number of Bedrooms" Margin="342,49,294,227" RenderTransformOrigin="0.524,0.528" />
+                    <TextBox x:Name="bedroomsTextBox" TextWrapping="Wrap"  Width="52" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="470,48,0,0" FontSize="14" Height="26"/>
+                    <Label Content="Number of Bathrooms" Margin="545,46,85,224" RenderTransformOrigin="0.524,0.528" />
+                    <TextBox x:Name="bathroomsTextBox" TextWrapping="Wrap"  Width="53" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="674,46,0,0" FontSize="14" Height="26"/>
+                    <Label Content="Approximate Address" Margin="33,95,602,174" RenderTransformOrigin="0.524,0.528" />
+                    <TextBox x:Name="approxAddressTextBox" TextWrapping="Wrap"  Width="575" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,97,0,0" FontSize="14" Height="26"/>
+                    <Label Content="Exact Address" Margin="33,146,602,125" RenderTransformOrigin="0.524,0.528" />
+                    <TextBox x:Name="exactAddressTextBox" TextWrapping="Wrap"  Width="575" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,148,0,0" FontSize="14" Height="26"/>
+                    <Label Content="Description" Margin="33,189,602,82" RenderTransformOrigin="0.524,0.528" />
+                    <TextBox x:Name="descriptionTextBox" TextWrapping="Wrap"  Width="575" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,189,0,0" FontSize="14" Height="26"/>
+                    <Label Content="Minimum" Margin="256,261,437,10" RenderTransformOrigin="0.524,0.528" />
+                    <TextBox x:Name="minNightsTextBox" TextWrapping="Wrap"  Width="53" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="333,262,0,0" FontSize="14" Height="26"/>
+                    <Label Content="Maximum" Margin="438,261,250,10" RenderTransformOrigin="0.524,0.528" />
+                    <TextBox x:Name="maxNightsTextBox" TextWrapping="Wrap"  Width="53" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="510,261,0,0" FontSize="14" Height="26"/>
+                    <Label Content="Reservation Time (Nights)" Margin="33,261,573,10" RenderTransformOrigin="0.524,0.528" />
+                    <Label Content="Host Rule" Margin="33,225,602,46" RenderTransformOrigin="0.524,0.528" />
+                    <TextBox x:Name="hostRulesTextBox" TextWrapping="Wrap"  Width="575" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,225,0,0" FontSize="14" Height="26"/>
+                    <Label Content="Area:" Margin="33,289,602,10" />
+                    <ComboBox x:Name="areaComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="96,295,0,0" Width="236" /> 
+
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Amenties">
+                <Grid Background="#FFE5E5E5">
+                    <Label >
+                        <Label Content="Choose Aviable Amenities:"/>
+                    </Label>
+                    <DataGrid x:Name="amenitiesDataGrid" AutoGenerateColumns="False" Margin="10,38,10,10" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Amenity" Binding="{Binding Name}"/>
+                            <DataGridCheckBoxColumn Header="Available" Binding="{Binding IsSelected}"/>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <!--<TabItem Header="Distance to Attraction">
+    <Grid Background="#FFE5E5E5">
+        <Label >
+            <Label Content="Choose Aviable Amenities:"/>
+        </Label>
+        <DataGrid x:Name="distanceDataGrid" AutoGenerateColumns="False" Margin="10,41,10,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Atrraction" Binding="{Binding AttractionName}"/>
+                <DataGridTextColumn Header="Area" Binding="{Binding AreaName}"/>
+                <DataGridTextColumn Header="Distance (km)" Binding="{Binding Distance}"/>
+                <DataGridTextColumn Header="On Foot (minutes)" Binding="{Binding OnFoot}"/>
+                <DataGridTextColumn Header="By Car (minutes)" Binding="{Binding ByCAr}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</TabItem> -->
+        </TabControl>
+        <Button x:Name="nextButton" Content="Next" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="25" Margin="543,0,0,10" Grid.Column="1" Click="nextButton_Click"/>
+        <Button x:Name="closeFinishButton" Content="Close/Finish" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="25" Margin="638,0,0,10" Grid.Column="1" Click="closeFinishButton_Click"/>
+        <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="25" Margin="448,0,0,10" Grid.Column="1" Click="cancelButton_Click" Visibility="Hidden"/>
+    </Grid>
+</Window>
