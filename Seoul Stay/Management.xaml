@@ -26,7 +26,7 @@
             <TabItem x:Name="ownerManagerTab" Header="I am Owner/ Manager">
                 <Grid>
                     <Button Content="Add Listing" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Width="100" Click="Button_Click"/>
-                    <DataGrid  x:Name="ownerDataGrid"  AutoGenerateColumns="False" Margin="10,40,10,10">
+                    <DataGrid x:Name="ownerDataGrid" AutoGenerateColumns="False" Margin="10,40,10,10" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
                             <DataGridTextColumn Header="Capacity" Binding="{Binding Capacity}"/>
@@ -35,12 +35,15 @@
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Edit Details" Click="EditButton_Click" />
+                                        <Button Content="Edit Details" Click="EditButton_Click"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+
+
+
 
                 </Grid>
             </TabItem>
