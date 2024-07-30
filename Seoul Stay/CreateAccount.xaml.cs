@@ -72,6 +72,7 @@ namespace Seoul_Stay
                     if (existingUser != null)
                     {
                         MessageBox.Show("Error Message", "Username already existed", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
                     }
 
                     var user = new User
@@ -89,6 +90,9 @@ namespace Seoul_Stay
 
                     context.Users.Add(user);
                     context.SaveChanges();
+
+                    Properties.Settings.Default.UserID = user.ID;
+                    Properties.Settings.Default.Save();
                 }
 
                 MessageBox.Show("User added successfully!");

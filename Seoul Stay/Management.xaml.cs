@@ -9,127 +9,97 @@ namespace Seoul_Stay
 {
     public partial class Management : Window
     {
+        private List<Item> _allItems;
+        private List<Item> _allItems2;
+        private Session1Entities _context;
+
         public Management()
         {
             InitializeComponent();
+            _context = new Session1Entities();
             LoadData();
+
+          
+
+            
         }
 
         private void LoadData()
         {
-            using (var context = new Session1Entities())
-            {
-                if (ownerManagerTab.IsSelected)
-                {
-                    long userId = Properties.Settings.Default.UserID;
-                    var listings = context.Items.Where(i => i.UserID == userId).Select(i => new ListingItem
-                    {
-                        Title = i.Title,
-                        Capacity = i.Capacity,
-                        Area = i.Area.Name,
-                        Type = i.ItemType.Name
-                    }).ToList();
-
-                    ownerDataGrid.ItemsSource = listings;
-                }
-                else if (travelerTab.IsSelected)
-                {
-                    var listings = context.Items.Select(i => new ListingItem
-                    {
-                        Title = i.Title,
-                        Capacity = i.Capacity,
-                        Area = i.Area.Name,
-                        Type = i.ItemType.Name
-                    }).ToList();
-
-                    travelerDataGrid.ItemsSource = listings;
-                    statusText.Text = $"{listings.Count} items found.";
-                }
-            }
+            _allItems = _context.Items.Include("Area").Include("ItemType").ToList();
+            _allItems2 = _context.Items.Include("Area").Include("ItemType").
+                Where(a => a.UserID == Properties.Settings.Default.UserID).ToList();
+            DataGridTraveller.ItemsSource = _allItems;
+            DataGridOwnerManager.ItemsSource = _allItems2;
+            UpdateItemCountText(DataGridTraveller.Items.Count);
         }
 
-        private void exitBtn_Click(object sender, RoutedEventArgs e)
+        private void BtnLogOut_Click(object sender, RoutedEventArgs e)
         {
-            Environment.Exit(1);
-        }
-
-        private void logoutBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Welcome welcome = new Welcome();
-            welcome.Show();
+            Properties.Settings.Default.KeepMeSignedIn = false;
+            Properties.Settings.Default.username = string.Empty;
+            Properties.Settings.Default.password = string.Empty;
+            Properties.Settings.Default.Save();
+            var welcomeWindow = new Welcome();
+            welcomeWindow.Show();
             this.Close();
         }
 
-        private void searchBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-            string filter = textBox.Text.ToLower();
-
-            using (var context = new Session1Entities())
-            {
-                var filteredListings = context.Items.
-                    Where(i => i.Title.ToLower().Contains(filter) ||
-                    i.Area.Name.ToLower().Contains(filter) ||
-                    i.ItemType.Name.ToLower().Contains(filter))
-                    .Select(i => new ListingItem
-                    {
-                        Title = i.Title,
-                        Capacity = i.Capacity,
-                        Area = i.Area.Name,
-                        Type = i.ItemType.Name
-                    }).ToList();
-
-                travelerDataGrid.ItemsSource = filteredListings;
-                statusText.Text = $"{filteredListings.Count} items found.";
-            }
+            Application.Current.Shutdown();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BtnAddListing_Click(object sender, RoutedEventArgs e)
         {
-            AddEditListing addEdit = new AddEditListing(false);
-            addEdit.Show();
+            var addwindow = new AddEditListing(false);
+            addwindow.Show();
             this.Close();
+
         }
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
+        private void BtnEditClick_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Edit button clicked");
-
-            if (ownerDataGrid.SelectedItem is ListingItem selectedItem)
+            var button = sender as Button;
+            var item = button?.DataContext as Item;
+            if (item != null)
             {
-                MessageBox.Show($"Selected item: {selectedItem.Title}");
-
-                using (var context = new Session1Entities())
-                {
-                    var itemToEdit = context.Items
-                        .FirstOrDefault(i => i.Title == selectedItem.Title &&
-                                             i.Capacity == selectedItem.Capacity &&
-                                             i.Area.Name == selectedItem.Area &&
-                                             i.ItemType.Name == selectedItem.Type &&
-                                             i.UserID == Properties.Settings.Default.UserID);
-
-                    if (itemToEdit != null)
-                    {
-                        MessageBox.Show("Item found. Opening edit window.");
-                        AddEditListing editListing = new AddEditListing(true, itemToEdit);
-                        editListing.Show();
-                        this.Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Item not found in the database.");
-                    }
-                }
+                var welcomeWindow = new AddEditListing(true, item);
+                welcomeWindow.Show();
+                this.Close();
             }
             else
             {
-                MessageBox.Show("No item selected");
+                MessageBox.Show("ERROR");
             }
         }
 
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TabItemOwnerManager_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            LoadData();
+            UpdateItemCountText(DataGridOwnerManager.Items.Count);
+        }
+
+        private void TabItemTraveller_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            UpdateItemCountText(DataGridTraveller.Items.Count);
+        }
+
+        private void SearchTextBoxTraveller_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string filterText = SearchTextBoxTraveller.Text.ToLower();
+            var filteredItems = _allItems.Where(item =>
+                item.Title.ToLower().Contains(filterText) ||
+                item.Area.Name.ToLower().Contains(filterText) ||
+                item.ItemType.Name.ToLower().Contains(filterText)).ToList();
+
+            DataGridTraveller.ItemsSource = filteredItems;
+            
+            UpdateItemCountText(filteredItems.Count);
+        }
+
+        private void UpdateItemCountText(int count)
+        {
+            ItemsFoundText.Text = $"{count} items found";
         }
     }
 }

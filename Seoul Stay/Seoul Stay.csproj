@@ -86,6 +86,7 @@
     <Compile Include="CreateAccount.xaml.cs">
       <DependentUpon>CreateAccount.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DistanceItem.cs" />
     <Compile Include="Entities\Amenity.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

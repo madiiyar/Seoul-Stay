@@ -7,51 +7,63 @@
         mc:Ignorable="d"
         Title="Seoul Stay - Management" Height="450" Width="800">
     <Grid>
-         <TabControl Width="780" Height="310" Margin="0,80,0,0" SelectionChanged="TabControl_SelectionChanged">
-            <TabItem x:Name="travelerTab" Header="I am Traveler">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Image Margin="10"  Source="Photos/WSC2022SE_TP09_Logo_actual_en.png"/>
+        <Button x:Name="BtnLogOut" Content="Log out" Click="BtnLogOut_Click" Margin="5" MinWidth="100" MinHeight="30" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        <Button x:Name="BtnExit" Content="Exit" Click="BtnExit_Click" Margin="5,5,120,5" MinWidth="100" MinHeight="30" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        <TabControl Margin="10,10,10,44" Grid.Row="1" Grid.RowSpan="2" >
+            <TabItem x:Name="TabItemTraveller"  MouseEnter="TabItemTraveller_MouseEnter" Header="I'm Traveller">
                 <Grid>
-                    <Label Content="Seaerch:" Padding="5,10,5,5" />
-                    <TextBox x:Name="searchBox" Width="200" HorizontalAlignment="Left" Margin="57,10,0,0" VerticalAlignment="Top" TextChanged="searchBox_TextChanged"  />
-                    <DataGrid x:Name="travelerDataGrid" AutoGenerateColumns="False" Margin="10,40,10,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="5*"/>
+
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="SearchTextBoxTraveller" Grid.Row="0" Margin="10,10,10,0" TextChanged="SearchTextBoxTraveller_TextChanged" BorderBrush="Black" FontSize="16" />
+                    <DataGrid x:Name="DataGridTraveller" Grid.Row="1" Margin="10" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
-                            <DataGridTextColumn Header="Capacity" Binding="{Binding Capacity}"/>
-                            <DataGridTextColumn Header="Area" Binding="{Binding Area}"/>
-                            <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
+                            <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Header="Capacity" Width="*" Binding="{Binding Capacity}"/>
+                            <DataGridTextColumn Header="Area" Width="*" Binding="{Binding Area.Name}"/>
+                            <DataGridTextColumn Header="Type" Width="*"  Binding="{Binding ItemType.Name}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-
                 </Grid>
             </TabItem>
-            <TabItem x:Name="ownerManagerTab" Header="I am Owner/ Manager">
+            <TabItem x:Name="TabItemOwnerManager" MouseEnter="TabItemOwnerManager_MouseEnter" Header="I'm Owner / Manager">
                 <Grid>
-                    <Button Content="Add Listing" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Width="100" Click="Button_Click"/>
-                    <DataGrid x:Name="ownerDataGrid" AutoGenerateColumns="False" Margin="10,40,10,10" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="47*"/>
+                        <ColumnDefinition Width="727*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+                    <Button Content="Add listing" FontSize="14" x:Name="BtnAddListing" Click="BtnAddListing_Click"  HorizontalAlignment="Left" Margin="10,10,0,10" Width="120" Grid.ColumnSpan="2" />
+                    <DataGrid x:Name="DataGridOwnerManager" Margin="10,44,10,10" AutoGenerateColumns="False" Grid.ColumnSpan="2" Grid.RowSpan="2">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
-                            <DataGridTextColumn Header="Capacity" Binding="{Binding Capacity}"/>
-                            <DataGridTextColumn Header="Area" Binding="{Binding Area}"/>
-                            <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
-                            <DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Title" Width="*" Binding="{Binding Title}"/>
+                            <DataGridTextColumn Header="Capacity" Width="*" Binding="{Binding Capacity}"/>
+                            <DataGridTextColumn Header="Area" Width="*" Binding="{Binding Area.Name}"/>
+                            <DataGridTextColumn Header="Type" Width="*"  Binding="{Binding ItemType.Name}"/>
+                            <DataGridTemplateColumn Header="Actions" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Edit Details" Click="EditButton_Click"/>
+                                        <Button Content="Edit details" Foreground="Blue" Background="Transparent" Click="BtnEditClick_Click" x:Name="BtnEditClick"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-
-
-
-
                 </Grid>
             </TabItem>
-        </TabControl>
-        <Image HorizontalAlignment="Center" Height="60" Margin="0,23,0,0" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.509,0.497" Source="/WSC2022SE_TP09_Logo_actual_en.png" Stretch="Fill"/>
-        <Button x:Name="logoutBtn" Content="Log Out" HorizontalAlignment="Left" Margin="514,85,0,0" VerticalAlignment="Top" Width="99" Height="28" Click="logoutBtn_Click" />
-        <Button x:Name="exitBtn" Content="Exit" HorizontalAlignment="Left" Margin="651,85,0,0" VerticalAlignment="Top" Width="99" Height="28" Click="exitBtn_Click" />
-        <TextBlock  x:Name="statusText" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
+        </TabControl>
+        <TextBlock Text="3 items found" Margin="10,51,0,10" Grid.Row="2" HorizontalAlignment="Left" x:Name="ItemsFoundText" FontSize="16"/>
     </Grid>
 </Window>

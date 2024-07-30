@@ -27,7 +27,8 @@ namespace Seoul_Stay
         private readonly Seoul_Stay.Entities.Item _itemToEdit;
 
         public ObservableCollection<AmenityItem> Amenities { get; set; }
-       
+        public ObservableCollection<DistanceItem> Distances { get; set; }
+
 
         public AddEditListing(bool isEditMode, Seoul_Stay.Entities.Item item = null)
         {
@@ -38,16 +39,21 @@ namespace Seoul_Stay
             LoadAmenities();
             LoadAreas();
             LoadItemTypes();
+            LoadDistances();
             if (_isEditMode && _itemToEdit != null)
             {
+                this.Title = "Seoul Stay - Edit Listing";
                 InitializeFieldsForEditing();
                 closeFinishButton.Content = "Close";
                 nextButton.Visibility = Visibility.Hidden;
             }
             else
             {
+                this.Title = "Seoul Stay - Add Listing";
+                cancelButton.Visibility = Visibility.Visible;
                 closeFinishButton.Content = "Finish";
-                nextButton.Visibility= Visibility.Visible;
+                nextButton.Visibility = Visibility.Visible;
+                closeFinishButton.IsEnabled = false;
             }
         }
 
@@ -66,7 +72,7 @@ namespace Seoul_Stay
             minNightsTextBox.Text = _itemToEdit.MinimumNights.ToString();
             maxNightsTextBox.Text = _itemToEdit.MaximumNights.ToString();
             typeComboBox.SelectedValue = _itemToEdit.ItemTypeID;
-            areaComboBox.SelectedValue= _itemToEdit.AreaID;
+            areaComboBox.SelectedValue = _itemToEdit.AreaID;
 
         }
 
@@ -74,7 +80,8 @@ namespace Seoul_Stay
         {
             using (var context = new Session1Entities())
             {
-                var allAmenities = context.Amenities.Select(a => new AmenityItem{
+                var allAmenities = context.Amenities.Select(a => new AmenityItem
+                {
                     ID = (int)a.ID,
                     Name = a.Name,
                     IsSelected = false
@@ -112,7 +119,7 @@ namespace Seoul_Stay
         }
 
 
-
+        
 
         private void LoadAreas()
         {
@@ -127,6 +134,52 @@ namespace Seoul_Stay
                 areaComboBox.ItemsSource = areas;
                 areaComboBox.DisplayMemberPath = "Name";
                 areaComboBox.SelectedValuePath = "ID";
+            }
+        }
+
+        private void LoadDistances()
+        {
+            using (var context = new Session1Entities())
+            {
+                var allDistances = context.Attractions.Select(a => new DistanceItem
+                {
+                    AttractionID = (int)a.ID,
+                    AttractionName = a.Name,
+                    AreaName = a.Area.Name,
+                    Distance = 0,
+                    OnFoot = 0,
+                    ByCar = 0
+                }).ToList();
+
+                if (_isEditMode && _itemToEdit != null)
+                {
+                    var existingDistances = context.ItemAttractions.
+                        Where(ia => ia.ItemID == _itemToEdit.ID).
+                        Select(ia => new DistanceItem
+                        {
+                            AttractionID = (int)ia.AttractionID,
+                            AttractionName = ia.Attraction.Name,
+                            AreaName = ia.Attraction.Area.Name,
+                            Distance = (int)ia.Distance,
+                            OnFoot = (int)ia.DurationOnFoot,
+                            ByCar = (int)ia.DurationByCar
+                        }).ToList();
+
+                    foreach (var distance in allDistances)
+                    {
+                        var existingDistance = existingDistances.FirstOrDefault(ed => ed.AttractionID == distance.AttractionID);
+
+                        if (existingDistance != null)
+                        {
+                            distance.Distance = existingDistance.Distance;
+                            distance.OnFoot = existingDistance.OnFoot;
+                            distance.ByCar = existingDistance.ByCar;
+                        }
+                    }
+                }
+
+                Distances = new ObservableCollection<DistanceItem>(allDistances);
+                distanceDataGrid.ItemsSource = Distances;
             }
         }
 
@@ -170,13 +223,29 @@ namespace Seoul_Stay
                         }
 
 
+                        var esistingDistances = context.ItemAttractions.Where(ia => ia.ItemID == itemToUpdate.ID).ToList();
+                        context.ItemAttractions.RemoveRange(esistingDistances);
+
+                        foreach (var distance in Distances)
+                        {
+                            context.ItemAttractions.Add(new ItemAttraction
+                            {
+                                ItemID = itemToUpdate.ID,
+                                AttractionID = distance.AttractionID,
+                                Distance = distance.Distance,
+                                DurationOnFoot = distance.OnFoot,
+                                DurationByCar = distance.ByCar
+                            });
+                        }
+
                         context.SaveChanges();
+                        MessageBox.Show("Updated successfully");
                     }
                 }
             }
             else
             {
-                using(var context = new Session1Entities())
+                using (var context = new Session1Entities())
                 {
                     var newItem = new Seoul_Stay.Entities.Item
                     {
@@ -211,20 +280,75 @@ namespace Seoul_Stay
                         });
                     }
                     context.SaveChanges();
+                    MessageBox.Show("Added successfully");
                 }
-                
+
             }
+            Management management = new Management();
+            management.Show();
             this.Close();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
+            Management management = new Management();
+            management.Show();
             this.Close();
         }
 
         private void nextButton_Click(object sender, RoutedEventArgs e)
         {
+            if (MainTab.SelectedIndex == 0)
+            {
 
+                if (string.IsNullOrWhiteSpace(titleTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(capacityTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(bedsTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(bedroomsTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(bathroomsTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(approxAddressTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(exactAddressTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(descriptionTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(minNightsTextBox.Text) ||
+                    string.IsNullOrWhiteSpace(maxNightsTextBox.Text) ||
+                    typeComboBox.SelectedItem == null ||
+                    areaComboBox.SelectedItem == null)
+                {
+                    MessageBox.Show("Please fill in all fields in the Listing Details tab.");
+                    return;
+                }
+                else if (capacityTextBox.Text == "0" || bedsTextBox.Text == "0" || bedroomsTextBox.Text == "0" || bathroomsTextBox.Text == "0" || minNightsTextBox.Text == "0" || maxNightsTextBox.Text == "0")
+                {
+                    MessageBox.Show("Capacity, Beds, Bedrooms, Bathroom, Minimum and Maximum Nights needs to be more than 0");
+                }
+                else if (!(int.Parse(minNightsTextBox.Text) < int.Parse(maxNightsTextBox.Text)))
+                {
+                    MessageBox.Show("Maximum Nights needs to be equal or more than Minimum Hights");
+
+                }
+
+
+                else
+                {
+                    MainTab.SelectedIndex++;
+                    
+                }
+            } 
+            else if (MainTab.SelectedIndex == 1)
+            {
+                if (!Amenities.Any(a => a.IsSelected))
+                {
+                    MessageBox.Show("Please select at least one amenity.");
+                    return;
+                }
+                else
+                {
+                    MainTab.SelectedIndex++;
+                    nextButton.Visibility = Visibility.Hidden;
+                    cancelButton.Visibility = Visibility.Hidden;
+                    closeFinishButton.IsEnabled = true;
+                }
+            }
         }
     }
 }
