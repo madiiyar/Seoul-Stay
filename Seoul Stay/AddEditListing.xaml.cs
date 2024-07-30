@@ -279,6 +279,21 @@ namespace Seoul_Stay
                             AmenityID = amenity.ID
                         });
                     }
+
+                    foreach (var distance in Distances)
+                    {
+                        context.ItemAttractions.Add(new ItemAttraction
+                        {
+                            ItemID = newItem.ID,
+                            AttractionID = distance.AttractionID,
+                            Distance = distance.Distance,
+                            DurationOnFoot = distance.OnFoot,
+                            DurationByCar = distance.ByCar
+
+
+                        });
+                    }
+
                     context.SaveChanges();
                     MessageBox.Show("Added successfully");
                 }
